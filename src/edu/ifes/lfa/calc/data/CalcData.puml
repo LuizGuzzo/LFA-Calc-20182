@@ -1,0 +1,149 @@
+@startuml
+
+abstract class Expr {
+    +{abstract}eval(ctx: Context): Expr
+    +{abstract}write(): String
+}
+
+Expr --> Context
+
+class Context {
+    #parent: Optional<Context>
+    +isGlobal(): boolean
+    +contains(name: String): boolean
+    +put(name: String, value: Expr)
+    +set(name: String, value: Expr): boolean
+    +get(name: String): Expr
+}
+
+abstract class Literal {
+    +eval(ctx: Context): Expr
+}
+
+Expr <|-- Variable
+
+class Variable {
+    +name: String
+}
+
+Expr <|-- ExpecialForm
+
+ExpecialForm <|-- Assignment
+
+class Assignment {
+    +varName: String
+    +expr: Expr
+    +eval(ctx: Context)
+}
+
+ExpecialForm <|-- BlockExpr
+
+class BlockExpr {
+    +exprList: List<Expr>
+    +eval(ctx: Context): Expr
+}
+
+ExpecialForm <|-- IfExpr
+
+class IfExpr {
+    +cond: Expr
+    +thenExpr: Expr
+    +elseExpr: Expr
+    +eval(ctx: Context): Expr
+}
+
+class WhileExpr {
+    +cond: Expr
+    +doExpr: Expr
+    +eval(ctx: Context): Expr
+}
+
+ExpecialForm <|-- WhileExpr
+
+Expr <|-- Literal
+
+class Numeric {
+    +intValue: Long
+    +decValue: Double
+}
+
+class Int {
+    +value: Integer {readOnly}
+}
+
+class Decimal {
+    +value: Double {readOnly}
+}
+
+Literal <|-- Numeric
+
+Numeric <|-- Int
+Numeric <|-- Decimal
+
+class Bool {
+    +value: Boolean
+    +{static}VERUM: Bool
+    +{static}FALSUM: Bool
+    +neg(): Bool
+}
+
+Literal <|-- Bool
+
+class CompositeExpr {
+    +fn: Function
+    +args: List<Expr>
+    +eval(ctx: Context): Expr
+}
+
+Expr <|-- CompositeExpr
+CompositeExpr *-- Expr : args
+CompositeExpr --> Function
+
+abstract class Function {
+    +minArity: Integer
+    +maxArity: Optional<Integer>
+    +notation: ExprNotation
+    #checkArity(args: List<Expr>)
+    +apply(args: List<Expr>): Expr
+}
+
+enum ExprNotation {
+    INFIX
+    PREFIX
+    POSTFIX
+}
+
+hide enum methods
+
+Literal <|-- Function
+Function --> ExprNotation
+
+abstract class SysFunction {
+    +apply(args: List<Expr>): Expr
+    +{abstract}fn(values: List<Expr>): Expr
+}
+
+Function <|-- SysFunction
+
+class UserFunction {
+    +formalArgs: List<String>
+    +body: Expr
+    +apply(args: List<Expr>): Expr
+}
+
+Function <|-- UserFunction
+
+class Operator {
+    +symbol: String
+}
+
+SysFunction <|-- Operator
+
+abstract class Declaration {
+    +name: String
+    +initValue: Expr
+}
+
+Expr <|-- Declaration
+
+@enduml
