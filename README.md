@@ -4,9 +4,9 @@
 
 ###Grupo:
 <p>
- Lucas Garcia (20152bsi0048);<br />
- Olavo Curatola (20152bsi0455);<br />
- Victor Valfre (20091bsi0044);<br />
+ Luiz Antonio (20151bsi0193);<br />
+ Thalles ();<br />
+ William ;<br />
  
  GitHub do projeto: https://github.com/victorgonn/LFA-ANTLR-CALCULADORA
 </p>
