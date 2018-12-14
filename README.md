@@ -8,7 +8,7 @@
  Thalles ();<br />
  William ;<br />
  
- GitHub do projeto: https://github.com/victorgonn/LFA-ANTLR-CALCULADORA
+ GitHub do projeto: https://github.com/LuizGuzzo/LFA-Calc-20182
 </p>
 
 ###Tarefas Implementadas e Consideracoes:
